@@ -58,10 +58,16 @@ public class Main {
                 }
                 System.out.println(q1score);
 
-                int q2start = 3;
-                if(!(stuffs.get(3).substring(0,1).equals("\"")))
+                int q2start = 0;
+                for(int q = 0; q<stuffs.size(); q++)
                 {
-                    q2start = 4;
+                    if(stuffs.get(q).substring(0,1).equals("\""))
+                    {
+                        if(stuffs.get(q).substring(1,2).equals("+"))
+                        {
+                            q2start = q;
+                        }
+                    }
                 }
                 String [] q2 = stuffs.get(q2start).split("\\+");
                 double [] q2points = new double[q2.length-1];
