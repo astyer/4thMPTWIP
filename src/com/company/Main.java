@@ -18,10 +18,10 @@ public class Main {
 
         //for(int i = 0; i<29; i++)
         //{
-            int x = 1;
+            int x = 3;
             //while(stuff[0].equals(i + ""))
             //{
-                String [] stuff = data.get(1).split("\t");
+                String [] stuff = data.get(x).split("\t");
                 ArrayList<String> stuffs = new ArrayList();
                 for(String a: stuff)
                 {
@@ -30,10 +30,28 @@ public class Main {
                         stuffs.add(a);
                     }
                 }
-                /*for(String b: stuffs)
+                for(int f = 0; f < stuffs.size(); f++)
                 {
-                    System.out.println(b);
-                }*/
+                    if(stuffs.get(f).substring(0,1).equals("\""))
+                    {
+                        if(stuffs.get(f).substring(0,2).equals("\"+"))
+                        {
+                            for(int s = 1; s < stuffs.size() - f; s++)
+                            {
+                                if(stuffs.get(f).substring(0,1).equals("\""))
+                                {
+                                    if(stuffs.get(f+s).substring(0,2).equals("\"+"))
+                                    {
+                                        stuffs.set(f, stuffs.get(f) + ", " + stuffs.remove(f+s));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    System.out.println(stuffs.get(f));
+                }
+
+
                 String [] q1 = stuffs.get(1).split("\\+");
                 double [] q1points = new double[q1.length-1];
                 for(int p = 1; p < q1.length; p++)
