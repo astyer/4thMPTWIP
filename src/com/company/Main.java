@@ -18,7 +18,7 @@ public class Main {
 
         //for(int i = 0; i<29; i++)
         //{
-            int x = 3;
+            int x = 2;
             //while(stuff[0].equals(i + ""))
             //{
                 String [] stuff = data.get(x).split("\t");
@@ -32,18 +32,30 @@ public class Main {
                 }
                 for(int f = 0; f < stuffs.size(); f++)
                 {
+                    if(!(stuffs.get(f).substring(0,1).equals("\"")) && stuffs.get(f).length() > 2)
+                    {
+                        stuffs.remove(f);
+                    }
+                }
+                for(int f = 0; f < stuffs.size(); f++)
+                {
                     if(stuffs.get(f).substring(0,1).equals("\""))
                     {
                         if(stuffs.get(f).substring(0,2).equals("\"+"))
                         {
-                            for(int s = 1; s < stuffs.size() - f; s++)
+                            for(int s = 1; s < stuffs.size() - f+2; s++)
                             {
-                                if(stuffs.get(f).substring(0,1).equals("\""))
+                                if(stuffs.get(f+s).substring(0,1).equals("\""))
                                 {
                                     if(stuffs.get(f+s).substring(0,2).equals("\"+"))
                                     {
-                                        stuffs.set(f, stuffs.get(f) + ", " + stuffs.remove(f+s));
+                                        stuffs.set(f, stuffs.get(f).substring(0,stuffs.get(f).length()-1) + ", " + stuffs.remove(f+s).substring(1));
+                                        s--;
                                     }
+                                }
+                                else
+                                {
+                                    break;
                                 }
                             }
                         }
@@ -65,7 +77,7 @@ public class Main {
                 {
                     q1score += q1points[d];
                 }
-                if(stuffs.size()-1 == 2)
+                if(!stuffs.get(2).substring(0,1).equals("\""))
                 {
                     double q1synoff = Integer.parseInt(stuffs.get(2)) * 0.25;
                     q1score -= q1synoff;
@@ -76,16 +88,10 @@ public class Main {
                 }
                 System.out.println(q1score);
 
-                int q2start = 0;
-                for(int q = 0; q<stuffs.size(); q++)
+                int q2start = 3;
+                if(stuffs.get(2).substring(0,1).equals("\""))
                 {
-                    if(stuffs.get(q).substring(0,1).equals("\""))
-                    {
-                        if(stuffs.get(q).substring(1,2).equals("+"))
-                        {
-                            q2start = q;
-                        }
-                    }
+                    q2start = 2;
                 }
                 String [] q2 = stuffs.get(q2start).split("\\+");
                 double [] q2points = new double[q2.length-1];
@@ -101,7 +107,7 @@ public class Main {
                     q2score += q2points[d];
                 }
                 double q2synoff = 0;
-                if(!(stuffs.size()-1 < q2start+1))
+                if(stuffs.size() == q2start+2)
                 {
                     q2synoff = Integer.parseInt(stuffs.get(q2start+1)) * 0.25;
                 }
