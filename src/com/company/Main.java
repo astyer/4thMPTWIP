@@ -18,7 +18,7 @@ public class Main {
 
         //for(int i = 0; i<29; i++)
         //{
-            int x = 2;
+            int x = 6;
             //while(stuff[0].equals(i + ""))
             //{
                 String [] stuff = data.get(x).split("\t");
@@ -30,9 +30,10 @@ public class Main {
                         stuffs.add(a);
                     }
                 }
+        System.out.println(stuffs);
                 for(int f = 0; f < stuffs.size(); f++)
                 {
-                    if(!(stuffs.get(f).substring(0,1).equals("\"")) && stuffs.get(f).length() > 2)
+                    if(!(stuffs.get(f).substring(0,1).equals("\"\\+")) && stuffs.get(f).length() > 2)
                     {
                         stuffs.remove(f);
                     }
@@ -43,7 +44,7 @@ public class Main {
                     {
                         if(stuffs.get(f).substring(0,2).equals("\"+"))
                         {
-                            for(int s = 1; s < stuffs.size() - f+2; s++)
+                            for(int s = 1; s < stuffs.size()-f; s++)
                             {
                                 if(stuffs.get(f+s).substring(0,1).equals("\""))
                                 {
@@ -60,9 +61,8 @@ public class Main {
                             }
                         }
                     }
-                    System.out.println(stuffs.get(f));
+                    //System.out.println(stuffs.get(f));
                 }
-
 
                 String [] q1 = stuffs.get(1).split("\\+");
                 double [] q1points = new double[q1.length-1];
@@ -93,13 +93,13 @@ public class Main {
                 {
                     q2start = 2;
                 }
-                String [] q2 = stuffs.get(q2start).split("\\+");
-                double [] q2points = new double[q2.length-1];
-                for(int p = 1; p < q2.length; p++)
+                String [] q2 = stuffs.get(q2start).split(", \\+");
+                double [] q2points = new double[q2.length];
+                for(int p = 0; p < q2.length; p++)
                 {
                     String [] q2parts = q2[p].split(" ");
                     String num = q2parts[1];
-                    q2points[p-1] = Double.parseDouble(num);
+                    q2points[p] = Double.parseDouble(num);
                 }
                 double q2score = 0;
                 for(int d = 0; d < q2points.length; d++)
