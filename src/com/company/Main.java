@@ -18,7 +18,7 @@ public class Main {
 
         //for(int i = 0; i<29; i++)
         //{
-            int x = 6;
+            int x = 17;
             //while(stuff[0].equals(i + ""))
             //{
                 String [] stuff = data.get(x).split("\t");
@@ -30,25 +30,39 @@ public class Main {
                         stuffs.add(a);
                     }
                 }
-        System.out.println(stuffs);
+                /*for(String b: stuffs)
+                {
+                    System.out.println(b);
+                }*/
                 for(int f = 0; f < stuffs.size(); f++)
                 {
-                    if(!(stuffs.get(f).substring(0,1).equals("\"\\+")) && stuffs.get(f).length() > 2)
+                    if(stuffs.get(f).length() > 2)
                     {
-                        stuffs.remove(f);
+                        if(!(stuffs.get(f).substring(1,2).equals("+")))
+                        {
+                            if(!(stuffs.get(f).substring(0,1).equals("+")))
+                            {
+                                stuffs.remove(f);
+                                f--;
+                            }
+                        }
                     }
                 }
+                /*for(String b: stuffs)
+                {
+                    System.out.println(b);
+                }*/
                 for(int f = 0; f < stuffs.size(); f++)
                 {
-                    if(stuffs.get(f).substring(0,1).equals("\""))
+                    if(stuffs.get(f).substring(0,1).equals("\"") || stuffs.get(f).substring(0,1).equals("+"))
                     {
-                        if(stuffs.get(f).substring(0,2).equals("\"+"))
+                        if(stuffs.get(f).substring(0,2).equals("\"+") || stuffs.get(f).substring(0,1).equals("+"))
                         {
                             for(int s = 1; s < stuffs.size()-f; s++)
                             {
-                                if(stuffs.get(f+s).substring(0,1).equals("\""))
+                                if(stuffs.get(f+s).substring(0,1).equals("\"") || stuffs.get(f).substring(0,1).equals("+"))
                                 {
-                                    if(stuffs.get(f+s).substring(0,2).equals("\"+"))
+                                    if(stuffs.get(f+s).substring(0,2).equals("\"+") || stuffs.get(f).substring(0,1).equals("+"))
                                     {
                                         stuffs.set(f, stuffs.get(f).substring(0,stuffs.get(f).length()-1) + ", " + stuffs.remove(f+s).substring(1));
                                         s--;
@@ -61,9 +75,11 @@ public class Main {
                             }
                         }
                     }
-                    //System.out.println(stuffs.get(f));
                 }
-
+                for(String b: stuffs)
+                {
+                    System.out.println(b);
+                }
                 String [] q1 = stuffs.get(1).split("\\+");
                 double [] q1points = new double[q1.length-1];
                 for(int p = 1; p < q1.length; p++)
@@ -77,7 +93,7 @@ public class Main {
                 {
                     q1score += q1points[d];
                 }
-                if(!stuffs.get(2).substring(0,1).equals("\""))
+                if(!(stuffs.get(2).substring(0,1).equals("\"")))
                 {
                     double q1synoff = Integer.parseInt(stuffs.get(2)) * 0.25;
                     q1score -= q1synoff;
