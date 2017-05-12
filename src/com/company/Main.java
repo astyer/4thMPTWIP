@@ -7,6 +7,17 @@ public class Main {
 
     public static void main(String[] args) throws IOException{
 
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the text file name (including the .txt extension):");
+        String filename = input.nextLine();
+        System.out.println("Is the file separated by tabs or spaces? (enter \"tabs\" or \"spaces\")");
+        String tors = input.nextLine();
+        boolean spaces = false;
+        if(tors.equalsIgnoreCase("spaces"))
+        {
+            spaces = true;
+        }
+
         Scanner sf = new Scanner(new File("rawDataU6.txt"));
 
         ArrayList<String> data = new ArrayList();
@@ -35,10 +46,6 @@ public class Main {
                         stuffs.add(a);
                     }
                 }
-                /*for(String b: stuffs)
-                {
-                    System.out.println(b);
-                }*/
                 for(int f = 0; f < stuffs.size(); f++)
                 {
                     if(stuffs.get(f).length() > 3)
@@ -53,10 +60,6 @@ public class Main {
                         }
                     }
                 }
-                /*for(String b: stuffs)
-                {
-                    System.out.println(b);
-                }*/
                 for(int f = 0; f < stuffs.size(); f++)
                 {
                     if(stuffs.get(f).substring(0,1).equals("+"))
@@ -64,10 +67,6 @@ public class Main {
                         stuffs.set(f, "\"" + stuffs.get(f));
                     }
                 }
-                /*for(String b: stuffs)
-                {
-                    System.out.println(b);
-                }*/
                 for(int f = 0; f < stuffs.size(); f++)
                 {
                     if(stuffs.get(f).substring(0,1).equals("\""))
@@ -92,10 +91,6 @@ public class Main {
                         }
                     }
                 }
-                /*for(String b: stuffs)
-                {
-                    System.out.println(b);
-                }*/
                 String [] q1 = stuffs.get(1).split("\\+");
                 double [] q1points = new double[q1.length-1];
                 for(int p = 1; p < q1.length; p++)
@@ -169,7 +164,7 @@ public class Main {
             q2scoreavg[i-1] = q2avg;
         }
 
-        Scanner sf2 = new Scanner(new File("named names.txt"));
+        Scanner sf2 = new Scanner(new File(filename));
 
         ArrayList<String> data2 = new ArrayList();
         while(sf2.hasNextLine())
@@ -177,30 +172,38 @@ public class Main {
             data2.add(sf2.nextLine());
         }
         sf2.close();
+        Collections.sort(data2);
 
         ArrayList<String> names = new ArrayList();
         ArrayList<String> secnums = new ArrayList();
+        String delimiter = "\t";
+        if(spaces)
+        {
+            delimiter = "\\s";
+        }
         for(String a: data2)
         {
-            String [] stuff = a.split("\t");
+            String [] stuff = a.split(delimiter);
             names.add(stuff[0]);
             secnums.add(stuff[1]);
         }
 
         System.out.println("Name    Secret Number   Avg Total Grade FR Q1 Grade FR Q2 Grade");
 
-        for(int i = 0; i < q1scoreavg.length; i++)
+        for(int i = 0; i < names.size(); i++)
         {
-            /*String q1 = q1scoreavg[i] + "";
-            if(q1.length() < 7)
+            String q1 = q1scoreavg[Integer.parseInt(secnums.get(i))-1] + "";
+            if(q1.length() < 5)
             {
                 q1 += "0";
-                q1scoreavg[i] = Double.parseDouble(q1);
-            }*/
-            double avgtotal = q1scoreavg[i] + q2scoreavg[i];
-            int n = i+1;
-            System.out.print("\t\t" + n + "\t\t\t\t" + avgtotal + " / 19" + "\t\t" + q1scoreavg[i] + "\t\t" + q2scoreavg[i]);
-            System.out.println();
+            }
+            String tabs = "\t";
+            if(names.get(i).length() < 4)
+            {
+                tabs+="\t";
+            }
+            double avgtotal = q1scoreavg[Integer.parseInt(secnums.get(i))-1] + q2scoreavg[Integer.parseInt(secnums.get(i))-1];
+            System.out.println(names.get(i) + tabs + secnums.get(i) + "\t\t\t\t" + avgtotal + " / 19" + "\t\t" + q1 + "\t\t" + q2scoreavg[Integer.parseInt(secnums.get(i))-1]);
         }
     }
 }
